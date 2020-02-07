@@ -1,26 +1,15 @@
 import React from 'react'
 
-
-
 class ProductCard extends React.Component {
 
-    InventoryUserMatch = (inventory) => {
-        return this.props.users.map(user => {
-            return user.inventories.map(i => {
-                if (i.id == inventory.id) {
-                    return user.username
-                }
-            })
-        })
-    }
-
     render() {
+        console.log("INVENTORIES: ", this.props.inventories)
         return(
-            <div>
+            <div className="product-card">
                 <h3>{this.props.name}</h3>
                 <p>Category: {this.props.category}</p>
                 <p>Description: {this.props.description}</p>
-                <p>Sold by: {this.props.inventories.map(inventory => this.InventoryUserMatch(inventory))}</p>
+                {/* <p>Sold by: {this.props.inventories.map(prodInventory => prodInventory.user.username)}</p> */}
                 <button>Buy Now!</button>
             </div>
         )
@@ -28,3 +17,5 @@ class ProductCard extends React.Component {
 }
 
 export default ProductCard 
+
+// do some thinking on app layout - what containers/components do we want? How do we want to structure pages
