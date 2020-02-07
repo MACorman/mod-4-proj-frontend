@@ -3,26 +3,26 @@ import ProductCard from '../components/ProductCard'
 
 class ProductsContainer extends React.Component {
 
-    state = {
-        products: [],
-        users: []
-    }
-    componentDidMount() {
-        fetch("http://localhost:3000/products")
-        .then(resp => resp.json())
-        .then(data => this.setState({products: data}))
+    // state = {
+    //     products: [],
+    //     users: []
+    // }
+    // componentDidMount() {
+    //     fetch("http://localhost:3000/products")
+    //     .then(resp => resp.json())
+    //     .then(data => this.setState({products: data}))
 
-        fetch("http://localhost:3000/users")
-        .then(resp => resp.json())
-        .then(data => this.setState({users: data}))
-    }
+    //     fetch("http://localhost:3000/users")
+    //     .then(resp => resp.json())
+    //     .then(data => this.setState({users: data}))
+    // }
 
     render() {
-        console.log(this.state.products)
-        console.log(this.state.users)
+        console.log(this.props.products)
+        console.log(this.props.users)
         return(
             <div>
-                {this.state.products.map(product => <ProductCard key={product.id} {...product} users={this.state.users} />)}
+                {this.props.products.map(product => <ProductCard key={product.id} {...product} users={this.props.users} />)}
                 
 
             </div>
