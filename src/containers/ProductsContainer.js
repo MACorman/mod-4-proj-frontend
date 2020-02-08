@@ -1,5 +1,6 @@
 import React from 'react'
 import ProductCard from '../components/ProductCard'
+import { Card } from 'semantic-ui-react'
 
 class ProductsContainer extends React.Component {
 
@@ -18,12 +19,12 @@ class ProductsContainer extends React.Component {
     // }
 
     render() {
-        console.log(this.props.products)
-        console.log(this.props.users)
-        return(
+
+
+        return (
             <div>
-                {this.props.products.map(product => <ProductCard key={product.id} {...product} users={this.props.users} />)}
-                
+                {this.props.products.map(product => <Card key={product.id}><ProductCard  {...product} users={this.props.users} /></Card>)}
+
 
             </div>
         )

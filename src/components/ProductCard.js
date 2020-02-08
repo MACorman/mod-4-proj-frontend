@@ -1,21 +1,31 @@
 import React from 'react'
+import { Button, Card, Icon, Image } from 'semantic-ui-react'
 
 class ProductCard extends React.Component {
 
     render() {
-        console.log("INVENTORIES: ", this.props.inventories)
-        return(
-            <div className="product-card">
-                <h3>{this.props.name}</h3>
-                <p>Category: {this.props.category}</p>
-                <p>Description: {this.props.description}</p>
-                {/* <p>Sold by: {this.props.inventories.map(prodInventory => prodInventory.user.username)}</p> */}
-                <button>Buy Now!</button>
-            </div>
+        return (
+            <Card>
+                <Card.Content>
+                    <Icon></Icon>
+                    <Card.Header>
+                        <h3>{this.props.name}</h3>
+                    </Card.Header>
+                    <Image></Image>
+                    <Card.Meta>
+                        <p>Category: {this.props.category}</p>
+                    </Card.Meta>
+                    <Card.Description>
+                        <p>Description: {this.props.description}</p>
+                    </Card.Description>
+                    {/* <p>Sold by: {this.props.inventories.map(prodInventory => prodInventory.user.username)}</p> */}
+                    <Button>Buy Now!</Button>
+                </Card.Content>
+            </Card>
         )
     }
 }
 
-export default ProductCard 
+export default ProductCard
 
 // do some thinking on app layout - what containers/components do we want? How do we want to structure pages
