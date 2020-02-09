@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Form } from 'semantic-ui-react'
+import { Button, Form, Input } from 'semantic-ui-react'
 
 // eslint-disable-next-line
 const newUserUrl = ""
@@ -54,33 +54,27 @@ class LoginOrSignUp extends Component {
 
   render() {
     return (
-      <Form onSubmit={(e) => this.submitHandler(e)}>
-        <Form.Field>
-          <label>Username: </label>
-          <input onChange={(e) => { this.inputHandler(e) }}
-            placeholder="Username"
-            name="username"
-            type="text" value={this.state.username} required />
-        </Form.Field>
-        <Form.Field>
-          <label>Password: </label>
-          <input onChange={(e) => { this.inputHandler(e) }}
-            placeholder="Password"
-            name="password"
-            type="password" value={this.state.password} required />
-        </Form.Field>
-        <Button type='submit'>Submit</Button>
-      </Form>
+      <div>
+        <br />
+        <Form required onSubmit={(e) => this.submitHandler(e)}>
+          <Form.Field required width={4}>
+            <Input label="Username" required focus onChange={(e) => { this.inputHandler(e) }}
+              name="username"
+              type="text" value={this.state.username} />
+          </Form.Field>
+
+          <Form.Field required width={4}>
+            <Input label="Password: " required focus onChange={(e) => { this.inputHandler(e) }}
+              name="password"
+              type="password" value={this.state.password} />
+            <Button primary type='submit'>Sign Up!</Button>
+          </Form.Field>
+        </Form>
+
+      </div>
     )
   }
 }
 
 export default LoginOrSignUp
 
-      //  {/* <Form.Field>
-      //     <label>Password Confirmation: </label>
-      //     <input onChange={(e) => { this.inputHandler(e) }}
-      //       placeholder="Password"
-      //       name="passwordConfirmation"
-      //       type="password" value={this.state.passwordConfirmation} />
-      //   </Form.Field> */}

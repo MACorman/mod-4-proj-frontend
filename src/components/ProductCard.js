@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Card, Icon, Image } from 'semantic-ui-react'
+import { Grid, Button, Card, Icon, Image } from 'semantic-ui-react'
 
 class ProductCard extends React.Component {
 
@@ -7,11 +7,11 @@ class ProductCard extends React.Component {
         return (
             <Card>
                 <Card.Content>
+                    <Image src=""></Image>
                     <Icon></Icon>
                     <Card.Header>
                         <h3>{this.props.name}</h3>
                     </Card.Header>
-                    <Image></Image>
                     <Card.Meta>
                         <p>Category: {this.props.category}</p>
                     </Card.Meta>
@@ -22,6 +22,8 @@ class ProductCard extends React.Component {
                     <Button>Buy Now!</Button>
                 </Card.Content>
             </Card>
+
+
         )
     }
 }

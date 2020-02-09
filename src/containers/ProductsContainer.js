@@ -22,11 +22,9 @@ class ProductsContainer extends React.Component {
 
 
         return (
-            <div>
-                {this.props.products.map(product => <Card key={product.id}><ProductCard  {...product} users={this.props.users} /></Card>)}
-
-
-            </div>
+            <Card.Group itemsPerRow={4}>
+                {this.props.products.map(product => <ProductCard key={product.id} {...product} users={this.props.users} />)}
+            </Card.Group>
         )
     }
 }

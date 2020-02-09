@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Button, Form, Input } from 'semantic-ui-react'
 
 class LoginOrProfileButton extends React.Component {
     state = {
@@ -45,13 +46,13 @@ class LoginOrProfileButton extends React.Component {
         return (
             <div className="login-profile-button">
                 {this.state.renderLoginForm ?
-                    <form onSubmit={this.submitHandler} >
-                        <input onChange={this.loginInputHandler} type="text" name="username" placeholder="Enter Username" value={this.state.loginInput.username} />
-                        <input onChange={this.loginInputHandler} type="text" name="password" placeholder="Enter Password" value={this.state.loginInput.password} />
-                        <input type="submit" />
-                    </form>
+                    <Form onSubmit={this.submitHandler} >
+                        <Input onChange={this.loginInputHandler} type="text" name="username" placeholder="Enter Username" value={this.state.loginInput.username} />
+                        <Input onChange={this.loginInputHandler} type="password" name="password" placeholder="Enter Password" value={this.state.loginInput.password} />
+                        <Input type="submit" />
+                    </Form>
                     :
-                    this.state.loggedIn ? <Link to="/profile">Go To Profile</Link> : <button onClick={this.clickHandler}>Login</button>
+                    this.state.loggedIn ? <Button as={Link} to="/profile">Go To Profile</Button> : <Button onClick={this.clickHandler}>Login</Button>
                 }
             </div>
         )

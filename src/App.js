@@ -1,11 +1,12 @@
 import React from 'react';
-
+// import { Container, Divider } from 'semantic-ui-react'
 import './App.css';
 import NavBar from './containers/NavBar'
 import LoginOrSignUp from './components/LoginOrSignUp'
 import { Switch, Route } from 'react-router-dom'
 import UserContainer from './containers/UserContainer';
 import ProductsContainer from './containers/ProductsContainer';
+import NewProductForm from './components/NewProductForm'
 
 
 
@@ -38,6 +39,7 @@ class App extends React.Component {
   // }
 
   render() {
+    console.log(this.state.products)
     return (
       <div className="App">
         <NavBar logUserIn={this.logUserIn} />
@@ -46,6 +48,7 @@ class App extends React.Component {
           <Route exact path='/profile' render={routerProps => <UserContainer user={this.state.currentUser} {...routerProps} />} />
           <Route exact path='/signup' render={routerProps => <LoginOrSignUp  {...routerProps} />} />
           <Route exact path='/products' render={routerProps => <ProductsContainer {...routerProps} products={this.state.products} />} />
+          <Route exact path='/newproductform' render={routerProps => <NewProductForm {...routerProps} />} />
         </Switch>
 
 
