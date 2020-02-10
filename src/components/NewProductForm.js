@@ -76,7 +76,7 @@ class NewProductForm extends React.Component {
       ]
     }
 
-    console.log(formInput)
+
     fetch(`http://localhost:3000/products`, {
       method: "POST",
       headers: {
@@ -91,7 +91,7 @@ class NewProductForm extends React.Component {
 
   render() {
 
-
+    console.log(this.props)
     return (
       <Fragment>
         <br />
@@ -106,6 +106,7 @@ class NewProductForm extends React.Component {
             <Input placeholder="Category" name="category" value={this.state.category} onChange={(e) => { this.handleChange(e) }}></Input>
           </Form.Field>
           <Button primary type="submit">Submit</Button>
+          {/* <Button secondary onClick={this.props.history.goBack}>Back</Button> */}
         </Form>
       </Fragment>
     )

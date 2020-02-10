@@ -27,7 +27,7 @@ class ProductsContainer extends React.Component {
 
         return (
             <Card.Group itemsPerRow={4}>
-                {this.props.products.map(product => <ProductCard handleClick={this.props.handleClick} key={product.id} {...product} users={this.props.users} />)}
+                {this.props.products.map(product => <ProductCard handleCart={this.props.handleCart} handleClick={this.props.handleClick} key={product.id} {...product} users={this.props.users} />)}
             </Card.Group>
         )
     }

@@ -28,7 +28,7 @@ class ProductCard extends React.Component {
                         <p>Description: {this.props.description}</p>
                     </Card.Description>
                     {/* <p>Sold by: {this.props.inventories.map(prodInventory => prodInventory.user.username)}</p> */}
-                    <Button primary>Add to Cart</Button>
+
                 </Card.Content>
             </Card>
 
