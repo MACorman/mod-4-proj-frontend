@@ -13,15 +13,7 @@ class LoginOrProfileButton extends React.Component {
     }
 
     clickHandler = () => {
-        // if (!this.state.loggedIn) {
         this.setState({ renderLoginForm: !this.state.renderLoginForm })
-        // } else {
-        //     //go to profile
-        //     // this.props.goToUserProfile()
-        //     <Link to='/profile' />
-        // }
-
-
     }
 
     loginInputHandler = (e) => {
@@ -35,10 +27,9 @@ class LoginOrProfileButton extends React.Component {
 
     submitHandler = (e) => {
         e.preventDefault()
-        console.log(this.state.loginInput)
         let userObj = this.state.loginInput
         this.props.logUserIn(userObj)
-        this.setState({ loggedIn: true })
+        this.setState({ loggedIn: true }, () => {sessionStorage.setItem("loggedIn", JSON.stringify(this.state.loggedIn))})
         this.setState({ renderLoginForm: false })
     }
 
@@ -52,7 +43,7 @@ class LoginOrProfileButton extends React.Component {
                         <Input type="submit" />
                     </Form>
                     :
-                    this.state.loggedIn ? <Button as={Link} to="/profile">Go To Profile</Button> : <Button onClick={this.clickHandler}>Login</Button>
+                    this.state.loggedIn || JSON.parse(sessionStorage.getItem("loggedIn")) ? <Button as={Link} to="/profile">Go To Profile</Button> : <Button onClick={this.clickHandler}>Login</Button>
                 }
             </div>
         )

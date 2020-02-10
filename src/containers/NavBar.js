@@ -24,7 +24,6 @@ class NavBar extends React.Component {
                 this.props.history.push('/')
                 break;
             case 'myInventory':
-                // this.props.history.push('/myinventory')
                 break;
             case 'sellProduct':
                 this.props.history.push('/newproductform')
