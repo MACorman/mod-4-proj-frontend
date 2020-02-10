@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
- 
+import { Button, Form, Input } from 'semantic-ui-react'
+
 class LoginOrProfileButton extends React.Component {
     state = {
         loggedIn: false,
@@ -10,17 +11,17 @@ class LoginOrProfileButton extends React.Component {
             password: ""
         }
     }
-    
+
     clickHandler = () => {
         // if (!this.state.loggedIn) {
-            this.setState({renderLoginForm: !this.state.renderLoginForm})
+        this.setState({ renderLoginForm: !this.state.renderLoginForm })
         // } else {
         //     //go to profile
         //     // this.props.goToUserProfile()
         //     <Link to='/profile' />
         // }
-        
-        
+
+
     }
 
     loginInputHandler = (e) => {
@@ -37,21 +38,21 @@ class LoginOrProfileButton extends React.Component {
         console.log(this.state.loginInput)
         let userObj = this.state.loginInput
         this.props.logUserIn(userObj)
-        this.setState({loggedIn: true})
-        this.setState({renderLoginForm: false})
+        this.setState({ loggedIn: true })
+        this.setState({ renderLoginForm: false })
     }
 
     render() {
-        return(
+        return (
             <div className="login-profile-button">
-                {this.state.renderLoginForm ? 
-                <form onChange={this.loginInputHandler} onSubmit={this.submitHandler} >
-                    <input type="text" name="username" placeholder="Enter Username" value={this.state.loginInput.username} />
-                    <input type="text" name="password" placeholder="Enter Password" value={this.state.loginInput.password} />
-                    <input type="submit" />
-                </form>
-                :
-                this.state.loggedIn ? <Link to="/profile">Go To Profile</Link> : <button onClick={this.clickHandler}>Login</button>
+                {this.state.renderLoginForm ?
+                    <Form onSubmit={this.submitHandler} >
+                        <Input onChange={this.loginInputHandler} type="text" name="username" placeholder="Enter Username" value={this.state.loginInput.username} />
+                        <Input onChange={this.loginInputHandler} type="password" name="password" placeholder="Enter Password" value={this.state.loginInput.password} />
+                        <Input type="submit" />
+                    </Form>
+                    :
+                    this.state.loggedIn ? <Button as={Link} to="/profile">Go To Profile</Button> : <Button onClick={this.clickHandler}>Login</Button>
                 }
             </div>
         )

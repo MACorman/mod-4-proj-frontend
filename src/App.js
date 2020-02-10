@@ -1,54 +1,83 @@
 import React from 'react';
-import logo from './logo.svg';
+// import { Container, Divider } from 'semantic-ui-react'
 import './App.css';
 import NavBar from './containers/NavBar'
-import Main from './containers/Main'
-import {BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import LoginOrSignUp from './components/LoginOrSignUp'
+import { Switch, Route, withRouter } from 'react-router-dom'
 import UserContainer from './containers/UserContainer';
 import ProductsContainer from './containers/ProductsContainer';
+import NewProductForm from './components/NewProductForm'
+import ProductShow from './components/ProductShow'
+
+
 
 class App extends React.Component {
-  
+
   state = {
     products: [],
-    users: [], 
+    users: [],
     currentUser: null,
+    currentCart: [],
+    currentProduct: {}
 
-}
-componentDidMount() {
+  }
+  componentDidMount() {
     fetch("http://localhost:3000/products")
-    .then(resp => resp.json())
-    .then(data => this.setState({products: data}))
+      .then(resp => resp.json())
+      .then(data => this.setState({ products: data }))
 
     fetch("http://localhost:3000/users")
-    .then(resp => resp.json())
-    .then(data => this.setState({users: data}))
-}
+      .then(resp => resp.json())
+      .then(data => this.setState({ users: data }))
+  }
 
-logUserIn = (userObj) => {
-  let currentUser = this.state.users.find(user => user.username === userObj.username)
-  this.setState({ currentUser })
-}
+  logUserIn = (userObj) => {
+    let currentUser = this.state.users.find(user => user.username === userObj.username)
+    this.setState({ currentUser })
+  }
 
-//get current user and render their profile
-// goToUserProfile = () => {
-//   let currentUser = this.state.currentUser
-// }
+  handleClick = (e, id) => {
+    let product = this.state.products.find(product => product.id === id)
+    this.setState({
+      currentProduct: product
+    })
+    this.props.history.push(`/products/${id}`)
+  }
+
+  handleCart = (e, productObject) => {
+    // console.log("got here", productObject)
+    if (!this.state.currentCart.includes(productObject)) {
+      this.setState({
+        currentCart: [...this.state.currentCart, productObject]
+      })
+    } else {
+      alert("You already added this item to the cart")
+    }
+  }
+
+  //get current user and render their profile
+  // goToUserProfile = () => {
+  //   let currentUser = this.state.currentUser
+  // }
 
   render() {
+
     return (
       <div className="App">
-        <NavBar logUserIn={this.logUserIn} />
+        <NavBar logUserIn={this.logUserIn} currentCart={this.state.currentCart} />
         <Switch>
-          <Route exact path='/' render={routerProps => <ProductsContainer {...routerProps} products={this.state.products}/>}/>
+          <Route exact path='/' render={routerProps => <ProductsContainer handleClick={this.handleClick} {...routerProps} products={this.state.products} />} />
           <Route exact path='/profile' render={routerProps => <UserContainer user={this.state.currentUser} {...routerProps} />} />
-          <Route exact path='/products' render={routerProps => <ProductsContainer {...routerProps} products={this.state.products} />} />
+          <Route exact path='/signup' render={routerProps => <LoginOrSignUp  {...routerProps} />} />
+          <Route exact path='/products' render={routerProps => <ProductsContainer handleClick={this.handleClick} {...routerProps} products={this.state.products} />} />
+          <Route exact path='/newproductform' render={routerProps => <NewProductForm {...routerProps} />} />
+          <Route exact path='/products/:id' render={routerProps => <ProductShow handleCart={this.handleCart} product={this.state.currentProduct} {...routerProps} />} />
         </Switch>
 
-        {/* <Main products={this.state.products} users={this.state.users} currentUser={this.state.currentUser} />  */}
+
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

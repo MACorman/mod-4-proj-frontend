@@ -1,18 +1,21 @@
-import React from 'react' 
+// import React from 'react'
+// import { Label, Icon, Button } from 'semantic-ui-react'
 
-class CartIcon extends React.Component {
+// class CartIcon extends React.Component {
 
-    state = {
-        cartItemCount: 0
-    }
+//     state = {
+//         cartItemCount: 0
+//     }
 
-    render() {
-        return(
-            <div>
-                <button>Cart 🛍: {this.state.cartItemCount}</button>
-            </div>
-        )
-    }
-}
+//     render() {
+//         return (
 
-export default CartIcon 
+//             <Button>
+//                 <Icon name='cart' />{this.state.cartItemCount}
+//             </Button>
+
+//         )
+//     }
+// }
+
+// export default CartIcon 
