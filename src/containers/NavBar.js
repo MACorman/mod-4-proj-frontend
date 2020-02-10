@@ -73,7 +73,7 @@ class NavBar extends React.Component {
                         <Menu.Menu>
                             <Menu.Item>
                                 <Button >
-                                    <Icon name='cart' />{this.state.cartItemCount}
+                                    <Icon name='cart' />{this.props.currentCart.length}
                                 </Button>
                             </Menu.Item>
                         </Menu.Menu>
