@@ -4,7 +4,7 @@ import { Button, Form, Input } from 'semantic-ui-react'
 // eslint-disable-next-line
 const newUserUrl = ""
 
-class LoginOrSignUp extends Component {
+class SignUp extends Component {
 
   state = {
     username: "",
@@ -44,14 +44,6 @@ class LoginOrSignUp extends Component {
     })
   }
 
-
-
-
-  fetchPost = () => {
-    // console.log("Coming from fetchPost", newUserObject)
-
-  }
-
   render() {
     return (
       <div>
@@ -76,5 +68,5 @@ class LoginOrSignUp extends Component {
   }
 }
 
-export default LoginOrSignUp
+export default SignUp
 

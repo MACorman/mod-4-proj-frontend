@@ -1,15 +1,18 @@
 import React from 'react' 
+import CartCard from '../components/CartCard'
+import { Card } from 'semantic-ui-react'
 
 class CartContainer extends React.Component {
     render() {
         return(
             <div>
-                <h1>Cart Container</h1>
+                <h2>Past Purchases</h2>
+                <Card.Group itemsPerRow={4}>
+                {this.props.carts.map(cart => <CartCard key={cart.id} {...cart} />)}
+                </Card.Group>
             </div>
         )
     }
 }
 
 export default CartContainer
-
-// add product cards 

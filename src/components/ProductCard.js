@@ -3,15 +3,6 @@ import { withRouter } from 'react-router-dom'
 import { Grid, Button, Card, Icon, Image } from 'semantic-ui-react'
 
 class ProductCard extends React.Component {
-
-    // handleClick = (e) => {
-    //     console.log(e.target)
-    // }
-
-    // productShow = (e) => {
-    //     console.log("Here is the show")
-    // }
-
     render() {
         return (
             <Card onClick={(e) => this.props.handleClick(e, this.props.id)}>
@@ -23,11 +14,8 @@ class ProductCard extends React.Component {
                     </Card.Header>
                     <Card.Meta>
                         <p>Category: {this.props.category}</p>
+                        {/* <p>Sold by: {this.props.inventories.map(prodInventory => prodInventory.user.username)}</p> */}
                     </Card.Meta>
-                    <Card.Description>
-                        <p>Description: {this.props.description}</p>
-                    </Card.Description>
-                    {/* <p>Sold by: {this.props.inventories.map(prodInventory => prodInventory.user.username)}</p> */}
                     <Button primary>Add to Cart</Button>
                 </Card.Content>
             </Card>
