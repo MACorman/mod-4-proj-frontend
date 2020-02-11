@@ -5,7 +5,6 @@ import { Card } from 'semantic-ui-react'
 class InventoryContainer extends React.Component {
     render() {
         console.log("label", this.props.productInventories)
-
         return (
             <div>
                 <h2>Your Inventory</h2>

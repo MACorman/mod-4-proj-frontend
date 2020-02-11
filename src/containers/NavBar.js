@@ -39,7 +39,7 @@ class NavBar extends React.Component {
 
     render() {
 
-        console.log(this.state.activeItem)
+        // console.log(this.state.activeItem)
 
 
         const { activeItem } = this.state

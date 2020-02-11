@@ -66,7 +66,6 @@ class App extends React.Component {
 
   addNewProduct = (formInput) => {
     let wholeObject = {
-      // user_id: this.props.currentUser.id,
       name: formInput.name,
       category: formInput.category
     }
