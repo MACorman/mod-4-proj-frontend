@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Button, Card, Icon, Image } from 'semantic-ui-react'
+import { Button, Card, Icon, Image } from 'semantic-ui-react'
 
 class InventoryCard extends React.Component {
 
@@ -9,20 +9,20 @@ class InventoryCard extends React.Component {
     }
 
     render() {
-        return(
-            <Card id={this.props.productInventories[0].id}>
+        return (
+            <Card id={this.props.id}>
                 <Card.Content>
-                    <Image src={this.props.productInventories[0].image}></Image>
+                    <Image src={this.props.image}></Image>
                     <Icon></Icon>
                     <Card.Header>
-                        <h3>{this.props.name}</h3>
+                        <h3>{this.props.product.name}</h3>
                     </Card.Header>
                     <Card.Description>
-                        <p>Description: {this.props.productInventories[0].description}</p>
+                        <p>Description: {this.props.description}</p>
                     </Card.Description>
                     <Card.Meta>
-                        <p>${this.props.productInventories[0].price}.00</p>
-                        <p>{this.props.productInventories[0].quantity} Left in Stock</p>
+                        <p>${this.props.price}.00</p>
+                        <p>{this.props.quantity} Left in Stock</p>
                     </Card.Meta>
                     <Button primary onClick={this.deleteHandler}>Delete From Inventory</Button>
                 </Card.Content>

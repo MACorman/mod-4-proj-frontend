@@ -1,11 +1,11 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import { Grid, Button, Card, Icon, Image } from 'semantic-ui-react'
+import { Button, Card, Icon, Image } from 'semantic-ui-react'
 
 class ProductCard extends React.Component {
     render() {
         return (
-            <Card onClick={(e) => this.props.handleClick(e, this.props.id)}>
+            <Card >
                 <Card.Content>
                     <Image src=""></Image>
                     <Icon></Icon>
@@ -16,11 +16,9 @@ class ProductCard extends React.Component {
                         <p>Category: {this.props.category}</p>
                         {/* <p>Sold by: {this.props.inventories.map(prodInventory => prodInventory.user.username)}</p> */}
                     </Card.Meta>
-                    <Button primary>Add to Cart</Button>
+                    <Button onClick={() => this.props.handleClick(this.props.id)} primary>View Product Listings</Button>
                 </Card.Content>
             </Card>
-
-
         )
     }
 }
