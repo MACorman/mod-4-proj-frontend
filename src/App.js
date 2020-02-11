@@ -54,7 +54,6 @@ class App extends React.Component {
   }
 
   handleCart = (e, productObject) => {
-    // console.log("got here", productObject)
     if (!this.state.currentCart.includes(productObject)) {
       this.setState({
         currentCart: [...this.state.currentCart, productObject]
@@ -80,10 +79,14 @@ class App extends React.Component {
     })
       .then(resp => resp.json())
       .then(data => {
-
         this.addNewProductInventory(formInput, data)
-        let updatedProductsArr = [...this.state.products, data]
-        this.setState({ products: updatedProductsArr })
+
+        let productNamesArr = this.state.products.map(p => p.name)
+        if(!productNamesArr.includes(data.name)) {
+          let updatedProductsArr = [...this.state.products, data]
+          this.setState({ products: updatedProductsArr })
+
+        }
       })
   }
 
@@ -109,7 +112,6 @@ class App extends React.Component {
     })
       .then(resp => resp.json())
       .then(data => {
-        console.log("2nd fetch", data)
         let updatedProductsArr = [...this.state.productInventories, data]
         this.setState({ productInventories: updatedProductsArr })
       })
@@ -117,8 +119,35 @@ class App extends React.Component {
 
 
 
-  deleteInventory = (Id) => {
-    console.log(Id)
+  deleteInventory = (productInventoryId, productId) => {
+
+    let productInventoryToBeDeleted = this.state.productInventories.find(pi => pi.id === parseInt(productInventoryId))
+    let reducedProductInventoryArr = [...this.state.productInventories]
+    reducedProductInventoryArr = reducedProductInventoryArr.filter(pi => pi.id !== productInventoryToBeDeleted.id)
+    this.setState({productInventories: reducedProductInventoryArr})
+    fetch(`http://localhost:3000/product_inventories/${productInventoryId}`, {
+      method: "DELETE"
+    })
+    .then(resp => resp.json())
+    .then(console.log("delete product inventory success"))
+
+    let productToBeDeleted = this.state.products.find(product => product.id === parseInt(productId))
+    console.log("why won't this work: ", productToBeDeleted.product_inventories.length)
+    if(productToBeDeleted.product_inventories.length - 1 <= 0) {
+      fetch(`http://localhost:3000/products/${productId}`, {
+        method: "DELETE"
+      })
+      .then(resp => resp.json())
+      .then(data => {
+        let reducedProductArr = [...this.state.products]
+        reducedProductArr = reducedProductArr.filter(product => product.id !== productToBeDeleted.id)
+        this.setState({products: reducedProductArr})
+      })
+    }
+  }
+
+  addToCart = () => {
+
   }
 
 
@@ -135,7 +164,7 @@ class App extends React.Component {
           <Route exact path='/signup' render={routerProps => <SignUp  {...routerProps} />} />
           <Route exact path='/products' render={routerProps => <ProductsContainer handleClick={this.handleClick} {...routerProps} products={this.state.products} />} />
           <Route exact path='/newproductform' render={routerProps => <NewProductForm {...routerProps} currentUser={this.state.currentUser} addNewProduct={this.addNewProduct} />} />
-          <Route exact path='/products/:id' render={routerProps => <ProductShow handleCart={this.handleCart} product={this.state.currentProduct} {...routerProps} />} />
+          <Route exact path='/products/:id' render={routerProps => <ProductShow handleCart={this.handleCart} product={this.state.currentProduct} products={this.state.products} productInventories={this.state.productInventories} addToCart={this.addToCart} {...routerProps} />} />
         </Switch>
 
 
