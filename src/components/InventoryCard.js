@@ -3,14 +3,23 @@ import { Button, Card, Icon, Image } from 'semantic-ui-react'
 
 class InventoryCard extends React.Component {
 
-    deleteHandler = (e) => {
-        let productInventoryID = e.target.parentNode.parentNode
-        this.props.deleteInventory(productInventoryID)
+    clickHandler = (e) => {
+        if(e.target.innerText === "Delete From Inventory") {
+            let productInventoryID = this.props.id
+            let productId = this.props.product.id
+            this.props.deleteInventory(productInventoryID, productId)
+        } 
+        else if (e.target.innerText === "Add To Cart") {
+
+        }
+        
     }
+
+    
 
     render() {
         return (
-            <Card id={this.props.id}>
+            <Card>
                 <Card.Content>
                     <Image src={this.props.image}></Image>
                     <Icon></Icon>
@@ -24,7 +33,7 @@ class InventoryCard extends React.Component {
                         <p>${this.props.price}.00</p>
                         <p>{this.props.quantity} Left in Stock</p>
                     </Card.Meta>
-                    <Button primary onClick={this.deleteHandler}>Delete From Inventory</Button>
+                    <Button primary onClick={this.clickHandler}>{this.props.deleteInventory ? "Delete From Inventory" : "Add To Cart" }</Button>
                 </Card.Content>
             </Card>
         )

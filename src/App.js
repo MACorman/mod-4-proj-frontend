@@ -117,8 +117,35 @@ class App extends React.Component {
 
 
 
-  deleteInventory = (Id) => {
-    console.log(Id)
+  deleteInventory = (productInventoryId, productId) => {
+    // console.log(Id)
+
+    let productInventoryToBeDeleted = this.state.productInventories.find(pi => pi.id === parseInt(productInventoryId))
+    let reducedProductInventoryArr = [...this.state.productInventories]
+    reducedProductInventoryArr = reducedProductInventoryArr.filter(pi => pi.id !== productInventoryToBeDeleted.id)
+    this.setState({productInventories: reducedProductInventoryArr})
+    // console.log(productToBeDeleted)
+    fetch(`http://localhost:3000/product_inventories/${productInventoryId}`, {
+      method: "DELETE"
+    })
+    .then(resp => resp.json())
+    .then(console.log("delete product inventory success"))
+
+    let productToBeDeleted = this.state.products.find(product => product.id === parseInt(productId))
+    let reducedProductArr = [...this.state.products]
+    reducedProductArr = reducedProductArr.filter(product => product.id !== productToBeDeleted.id)
+    this.setState({products: reducedProductArr})
+    // later will probably have to add conditional/change this so that when you delete product, if other vendors are still selling product the product does not delete off home page
+
+    fetch(`http://localhost:3000/products/${productId}`, {
+      method: "DELETE"
+    })
+    .then(resp => resp.json())
+    .then(console.log("delete product success"))
+  }
+
+  addToCart = () => {
+
   }
 
 
@@ -135,7 +162,7 @@ class App extends React.Component {
           <Route exact path='/signup' render={routerProps => <SignUp  {...routerProps} />} />
           <Route exact path='/products' render={routerProps => <ProductsContainer handleClick={this.handleClick} {...routerProps} products={this.state.products} />} />
           <Route exact path='/newproductform' render={routerProps => <NewProductForm {...routerProps} currentUser={this.state.currentUser} addNewProduct={this.addNewProduct} />} />
-          <Route exact path='/products/:id' render={routerProps => <ProductShow handleCart={this.handleCart} product={this.state.currentProduct} {...routerProps} />} />
+          <Route exact path='/products/:id' render={routerProps => <ProductShow handleCart={this.handleCart} product={this.state.currentProduct} products={this.state.products} productInventories={this.state.productInventories} addToCart={this.addToCart} {...routerProps} />} />
         </Switch>
 
 

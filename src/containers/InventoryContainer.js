@@ -13,7 +13,7 @@ class InventoryContainer extends React.Component {
                         console.log("PI INVENTORY", pi)
 
                         if (pi.inventory.user.username === this.props.user.username) {
-                            return <InventoryCard key={pi.id} {...pi} />
+                            return <InventoryCard key={pi.id} {...pi} deleteInventory={this.props.deleteInventory} />
                         }
                     })}
                     {/* {this.props.user.products ? this.props.user.products.map(product => <InventoryCard key={product.id} productInventories={this.props.user.product_inventories} deleteInventory={this.deleteInventory} {...product} />) : "No products to show"} */}
