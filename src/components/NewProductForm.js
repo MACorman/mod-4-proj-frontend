@@ -8,8 +8,8 @@ class NewProductForm extends React.Component {
     name: "",
     description: "",
     category: "", 
-    price: 0,
-    quantity: 0,
+    price: null,
+    quantity: null,
     image: ""
 
   }
@@ -32,8 +32,8 @@ class NewProductForm extends React.Component {
       name: "",
       description: "",
       category: "",
-      price: 0,
-      quantity: 0,
+      price: null,
+      quantity: null,
       image: ""
     })
   }
@@ -55,10 +55,10 @@ class NewProductForm extends React.Component {
             <Input placeholder="Category" name="category" value={this.state.category} onChange={(e) => { this.handleChange(e) }}></Input>
           </Form.Field>
           <Form.Field width={6}>
-            <Input placeholder="Price" name="price" value={this.state.price} onChange={(e) => { this.handleChange(e) }}></Input>
+            <Input placeholder="Price" type="number" name="price" value={this.state.price} onChange={(e) => { this.handleChange(e) }}></Input>
           </Form.Field>
           <Form.Field width={6}>
-            <Input placeholder="Quantity" name="quantity" value={this.state.quantity} onChange={(e) => { this.handleChange(e) }}></Input>
+            <Input placeholder="Quantity" type="number" name="quantity" value={this.state.quantity} onChange={(e) => { this.handleChange(e) }}></Input>
           </Form.Field>
           <Form.Field width={6}>
             <Input placeholder="Image" name="image" value={this.state.image} onChange={(e) => { this.handleChange(e) }}></Input>

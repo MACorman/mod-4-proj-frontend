@@ -61,54 +61,12 @@ class App extends React.Component {
 
   addNewProduct = (formInput) => {
     let wholeObject = {
-      // user_id: this.props.currentUser.id,
       name: formInput.name,
-      // description: formInput.description,
-      // category: formInput.category
-      // "name": formInput.name,
-      // "description": formInput.description,
-      // "category": formInput.category,
-      // "product_carts": [
-      //   {
-      //     "id": ""
-      //   }
-      // ],
-      // "product_inventories": [
-      //   {
-      //     "id": "",
-      //     "price": "",
-      //     "quantity": ""
-      //   }
-      // ],
-      // "carts": [
-      //   {
-      //     "id": ""
-      //   }
-      // ],
-      // "inventories": [
-      //   {
-      //     "id": "",
-      //     "user": {
-      //       "id": this.props.currentUser.id,
-      //       "username": this.props.currentUser.username,
-      //       "password": this.props.currentUser.password,
-      //       "created_at": "",
-      //       "updated_at": ""
-      //     }
-      //   }
-      // ],
-      // "users": [
-      //   {
-      //     "id": "",
-      //     "username": "",
-      //     "password": ""
-      //   }
-      // ]
       inventory_id: this.state.currentUser.inventories[0].id,
-      price: "",
-      quantity: "",
-
-
+      price: formInput.price,
+      quantity: formInput.quantity,
+      description: formInput.description,
+      image: formInput.image
     }
 
     console.log(formInput, this.props.currentUser)
@@ -122,6 +80,7 @@ class App extends React.Component {
     })
     .then(resp => resp.json())
     .then(data => {
+      console.log("POST data returned: ", data)
       let updatedProductsArr = [...this.state.products, data]
       this.setState({products: updatedProductsArr})
     })
