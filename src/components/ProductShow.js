@@ -5,30 +5,27 @@ import InventoryCard from './InventoryCard'
 class ProductShow extends React.Component {
 
   state = {
-    productInventories: this.props.productInventories
+    products: []
   }
 
-  componentDidMount = () => {
-    let filteredArr = [...this.state.productInventories]
-    filteredArr = filteredArr.filter(pi => pi.product.name === this.props.product.name)
-    sessionStorage.setItem("product_inventories", JSON.stringify(filteredArr))
-
-    if(sessionStorage.length > 0) {
-      this.setState({productInventories: JSON.parse(sessionStorage.getItem("product_inventories"))})
-    } else if (sessionStorage.length === 0) {
-      this.setState({productInventories: filteredArr})
-    }
+  componentDidMount() {
+  const id = this.props.product.id
+  // for some reason on page refresh product becomes null and cant read id of null
+  fetch(`http://localhost:3000/products/${id}`)
+  .then(resp => resp.json())
+  .then(data => this.setState({products: data}))
   }
 
-  handleBuyNow = () => {
+  // handleBuyNow = () => {
 
-  }
+  // }
 
   render() {
+    console.log("heyyoooo: ", this.state.products.product_inventories)
     return (
       <div>
         <h2>Product Listings</h2>
-        {this.state.productInventories.map(pi => <InventoryCard key={pi.id} {...pi} addToCart={this.props.addToCart}/>)}
+        {this.state.products.product_inventories ? this.state.products.product_inventories.map(pi => <InventoryCard key={pi.id} {...pi} addToCart={this.props.addToCart} product={this.props.product} />) : "Please wait, page is loading."}
       </div>
 
       // <div>

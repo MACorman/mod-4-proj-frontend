@@ -54,7 +54,6 @@ class App extends React.Component {
   }
 
   handleCart = (e, productObject) => {
-    // console.log("got here", productObject)
     if (!this.state.currentCart.includes(productObject)) {
       this.setState({
         currentCart: [...this.state.currentCart, productObject]
@@ -80,10 +79,14 @@ class App extends React.Component {
     })
       .then(resp => resp.json())
       .then(data => {
-
         this.addNewProductInventory(formInput, data)
-        let updatedProductsArr = [...this.state.products, data]
-        this.setState({ products: updatedProductsArr })
+
+        let productNamesArr = this.state.products.map(p => p.name)
+        if(!productNamesArr.includes(data.name)) {
+          let updatedProductsArr = [...this.state.products, data]
+          this.setState({ products: updatedProductsArr })
+
+        }
       })
   }
 
@@ -109,7 +112,6 @@ class App extends React.Component {
     })
       .then(resp => resp.json())
       .then(data => {
-        console.log("2nd fetch", data)
         let updatedProductsArr = [...this.state.productInventories, data]
         this.setState({ productInventories: updatedProductsArr })
       })
@@ -118,13 +120,11 @@ class App extends React.Component {
 
 
   deleteInventory = (productInventoryId, productId) => {
-    // console.log(Id)
 
     let productInventoryToBeDeleted = this.state.productInventories.find(pi => pi.id === parseInt(productInventoryId))
     let reducedProductInventoryArr = [...this.state.productInventories]
     reducedProductInventoryArr = reducedProductInventoryArr.filter(pi => pi.id !== productInventoryToBeDeleted.id)
     this.setState({productInventories: reducedProductInventoryArr})
-    // console.log(productToBeDeleted)
     fetch(`http://localhost:3000/product_inventories/${productInventoryId}`, {
       method: "DELETE"
     })
@@ -132,16 +132,18 @@ class App extends React.Component {
     .then(console.log("delete product inventory success"))
 
     let productToBeDeleted = this.state.products.find(product => product.id === parseInt(productId))
-    let reducedProductArr = [...this.state.products]
-    reducedProductArr = reducedProductArr.filter(product => product.id !== productToBeDeleted.id)
-    this.setState({products: reducedProductArr})
-    // later will probably have to add conditional/change this so that when you delete product, if other vendors are still selling product the product does not delete off home page
-
-    fetch(`http://localhost:3000/products/${productId}`, {
-      method: "DELETE"
-    })
-    .then(resp => resp.json())
-    .then(console.log("delete product success"))
+    console.log("why won't this work: ", productToBeDeleted.product_inventories.length)
+    if(productToBeDeleted.product_inventories.length - 1 <= 0) {
+      fetch(`http://localhost:3000/products/${productId}`, {
+        method: "DELETE"
+      })
+      .then(resp => resp.json())
+      .then(data => {
+        let reducedProductArr = [...this.state.products]
+        reducedProductArr = reducedProductArr.filter(product => product.id !== productToBeDeleted.id)
+        this.setState({products: reducedProductArr})
+      })
+    }
   }
 
   addToCart = () => {

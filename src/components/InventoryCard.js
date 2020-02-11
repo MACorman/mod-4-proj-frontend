@@ -15,9 +15,10 @@ class InventoryCard extends React.Component {
         
     }
 
-    
+
 
     render() {
+        console.log("Yeet: ", this.props)
         return (
             <Card>
                 <Card.Content>
