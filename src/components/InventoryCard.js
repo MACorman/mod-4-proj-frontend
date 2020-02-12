@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Card, Icon, Image } from 'semantic-ui-react'
+import { Button, Card, Image } from 'semantic-ui-react'
 
 class InventoryCard extends React.Component {
 
@@ -27,7 +27,6 @@ class InventoryCard extends React.Component {
             <Card>
                 <Card.Content>
                     <Image src={this.props.image}></Image>
-                    <Icon></Icon>
                     <Card.Header>
                         <h3>{this.props.product.name}</h3>
                     </Card.Header>
