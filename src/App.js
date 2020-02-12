@@ -11,6 +11,7 @@ import CheckOut from './components/CheckOut'
 
 
 
+
 class App extends React.Component {
 
   state = {
@@ -59,10 +60,6 @@ class App extends React.Component {
   }
 
   handleCart = (e, productObject) => {
-<<<<<<< HEAD
-
-=======
->>>>>>> 357424cb8f0d39e31ddfc4c3deb258887f32df2d
     if (!this.state.currentCart.includes(productObject)) {
       this.setState({
         currentCart: [...this.state.currentCart, productObject]
@@ -91,7 +88,7 @@ class App extends React.Component {
         this.addNewProductInventory(formInput, data)
 
         let productNamesArr = this.state.products.map(p => p.name)
-        if(!productNamesArr.includes(data.name)) {
+        if (!productNamesArr.includes(data.name)) {
           let updatedProductsArr = [...this.state.products, data]
           this.setState({ products: updatedProductsArr })
 
@@ -132,26 +129,32 @@ class App extends React.Component {
 
   }
 
+  logOut = () => {
+
+    this.setState({
+      currentUser: null
+    }, this.props.history.push('/'))
+    sessionStorage.clear()
+  }
+
 
   render() {
-    console.log(this.state.currentCart)
+    console.log(this.state.currentUser)
 
 
     return (
       <div className="App">
-        <NavBar logUserIn={this.logUserIn} currentCart={this.state.currentCart} />
+        <NavBar logOut={this.logOut} currentUser={this.state.currentUser} logUserIn={this.logUserIn} currentCart={this.state.currentCart} />
         <Switch>
           <Route exact path='/' render={routerProps => <ProductsContainer handleClick={this.handleClick} {...routerProps} products={this.state.products} />} />
           <Route exact path='/profile' render={routerProps => <UserContainer user={this.state.currentUser ? this.state.currentUser : JSON.parse(sessionStorage.getItem("currentUser"))} deleteInventory={this.deleteInventory} {...routerProps} productInventories={this.state.productInventories} />} />
           <Route exact path='/signup' render={routerProps => <SignUp logUserIn={this.logUserIn} {...routerProps} />} />
           <Route exact path='/products' render={routerProps => <ProductsContainer handleClick={this.handleClick} {...routerProps} products={this.state.products} />} />
           <Route exact path='/newproductform' render={routerProps => <NewProductForm {...routerProps} currentUser={this.state.currentUser} addNewProduct={this.addNewProduct} />} />
-<<<<<<< HEAD
           <Route exact path='/products/:id' render={routerProps => <ProductShow handleCart={this.handleCart} product={this.state.currentProduct} {...routerProps} />} />
           <Route exact path='/checkout' render={routerProps => <CheckOut currentCart={this.state.currentCart} {...routerProps} />} />
-=======
           <Route exact path='/products/:id' render={routerProps => <ProductShow handleCart={this.handleCart} product={this.state.currentProduct} products={this.state.products} productInventories={this.state.productInventories} addToCart={this.addToCart} {...routerProps} />} />
->>>>>>> 357424cb8f0d39e31ddfc4c3deb258887f32df2d
+
         </Switch>
 
 

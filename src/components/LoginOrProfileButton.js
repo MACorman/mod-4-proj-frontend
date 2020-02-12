@@ -27,9 +27,9 @@ class LoginOrProfileButton extends React.Component {
 
     submitHandler = (e) => {
         e.preventDefault()
-        let userObj = this.state.loginInput
+        let userObj = { ...this.state.loginInput }
         this.props.logUserIn(userObj)
-        this.setState({ loggedIn: true }, () => {sessionStorage.setItem("loggedIn", JSON.stringify(this.state.loggedIn))})
+        this.setState({ loggedIn: true }, () => { sessionStorage.setItem("loggedIn", JSON.stringify(this.state.loggedIn)) })
         this.setState({ renderLoginForm: false })
     }
 
