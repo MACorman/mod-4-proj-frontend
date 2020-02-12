@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Form, Input } from 'semantic-ui-react'
+import { Redirect } from 'react-router-dom'
+
 
 // eslint-disable-next-line
 const newUserUrl = ""
@@ -32,8 +34,19 @@ class SignUp extends Component {
       body: JSON.stringify(inputObject)
     })
       .then(resp => resp.json())
-      .then(data => console.log(data))
-    this.clearForm()
+      .then(data => {
+        let passedObject = {
+          username: data.username,
+          password: data.password
+        }
+
+        this.props.logUserIn(passedObject)
+        this.clearForm()
+
+
+
+
+      }, <Redirect to='/' />)
 
   }
 

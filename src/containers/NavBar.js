@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom'
 import LoginOrProfile from '../components/LoginOrProfileButton'
 import { Icon, Menu, Button, Input } from 'semantic-ui-react'
 
+
 class NavBar extends React.Component {
     state = {
         activeItem: 'home',
@@ -37,9 +38,11 @@ class NavBar extends React.Component {
 
 
 
+
+
     render() {
 
-        console.log(this.state.activeItem)
+
 
 
         const { activeItem } = this.state
@@ -71,9 +74,14 @@ class NavBar extends React.Component {
                         </Menu.Menu>
                         <Menu.Menu>
                             <Menu.Item>
-                                <Button >
+                                <Button onClick={() => this.props.history.push('/checkout')} >
                                     <Icon name='cart' />{this.props.currentCart.length}
                                 </Button>
+                            </Menu.Item>
+                        </Menu.Menu>
+                        <Menu.Menu>
+                            <Menu.Item>
+                                <Button onClick={() => this.props.history.push('/signup')}>Sign Up!</Button>
                             </Menu.Item>
                         </Menu.Menu>
                         <Menu.Menu>

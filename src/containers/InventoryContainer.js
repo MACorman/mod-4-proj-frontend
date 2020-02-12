@@ -17,7 +17,7 @@ class InventoryContainer extends React.Component {
                             return <InventoryCard key={pi.id} {...pi} />
                         }
                     })}
-                    {/* {this.props.user.products ? this.props.user.products.map(product => <InventoryCard key={product.id} productInventories={this.props.user.product_inventories} deleteInventory={this.deleteInventory} {...product} />) : "No products to show"} */}
+
                 </Card.Group>
             </div>
         )

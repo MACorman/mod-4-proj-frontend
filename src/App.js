@@ -1,5 +1,4 @@
 import React from 'react';
-// import { Container, Divider } from 'semantic-ui-react'
 import './App.css';
 import NavBar from './containers/NavBar'
 import SignUp from './components/SignUp'
@@ -8,6 +7,7 @@ import UserContainer from './containers/UserContainer';
 import ProductsContainer from './containers/ProductsContainer';
 import NewProductForm from './components/NewProductForm'
 import ProductShow from './components/ProductShow'
+import CheckOut from './components/CheckOut'
 
 
 
@@ -41,8 +41,13 @@ class App extends React.Component {
   }
 
   logUserIn = (userObj) => {
+
     let currentUser = this.state.users.find(user => user.username === userObj.username)
-    this.setState({ currentUser }, () => { sessionStorage.setItem("currentUser", JSON.stringify(this.state.currentUser)) })
+    this.setState({ currentUser }, () => {
+
+      sessionStorage.setItem("currentUser", JSON.stringify(this.state.currentUser))
+    })
+
   }
 
   handleClick = (id) => {
@@ -54,7 +59,7 @@ class App extends React.Component {
   }
 
   handleCart = (e, productObject) => {
-    // console.log("got here", productObject)
+
     if (!this.state.currentCart.includes(productObject)) {
       this.setState({
         currentCart: [...this.state.currentCart, productObject]
@@ -110,7 +115,7 @@ class App extends React.Component {
     })
       .then(resp => resp.json())
       .then(data => {
-        console.log("2nd fetch", data)
+
         let updatedProductsArr = [...this.state.productInventories, data]
         this.setState({ productInventories: updatedProductsArr })
       })
@@ -119,12 +124,12 @@ class App extends React.Component {
 
 
   deleteInventory = (Id) => {
-    console.log(Id)
+
   }
 
 
   render() {
-    console.log("product inventories", this.state.productInventories)
+    console.log(this.state.currentCart)
 
 
     return (
@@ -133,10 +138,11 @@ class App extends React.Component {
         <Switch>
           <Route exact path='/' render={routerProps => <ProductsContainer handleClick={this.handleClick} {...routerProps} products={this.state.products} />} />
           <Route exact path='/profile' render={routerProps => <UserContainer user={this.state.currentUser ? this.state.currentUser : JSON.parse(sessionStorage.getItem("currentUser"))} deleteInventory={this.deleteInventory} {...routerProps} productInventories={this.state.productInventories} />} />
-          <Route exact path='/signup' render={routerProps => <SignUp  {...routerProps} />} />
+          <Route exact path='/signup' render={routerProps => <SignUp logUserIn={this.logUserIn} {...routerProps} />} />
           <Route exact path='/products' render={routerProps => <ProductsContainer handleClick={this.handleClick} {...routerProps} products={this.state.products} />} />
           <Route exact path='/newproductform' render={routerProps => <NewProductForm {...routerProps} currentUser={this.state.currentUser} addNewProduct={this.addNewProduct} />} />
           <Route exact path='/products/:id' render={routerProps => <ProductShow handleCart={this.handleCart} product={this.state.currentProduct} {...routerProps} />} />
+          <Route exact path='/checkout' render={routerProps => <CheckOut currentCart={this.state.currentCart} {...routerProps} />} />
         </Switch>
 
 
