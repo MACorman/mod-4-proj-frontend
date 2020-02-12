@@ -23,7 +23,6 @@ class InventoryCard extends React.Component {
 
 
     render() {
-        console.log("Yeet: ", this.props)
         return (
             <Card>
                 <Card.Content>
@@ -37,7 +36,7 @@ class InventoryCard extends React.Component {
                     </Card.Description>
                     <Card.Meta>
                         <p>${this.props.price}.00</p>
-                        <p>{this.props.quantity} Left in Stock</p>
+                        <p>{this.props.quantity > 0 ? `${this.props.quantity} Left in Stock` : "Out of Stock" } </p>
                     </Card.Meta>
                     {this.props.checkout ? <Button primary onClick={this.removeHandler}>Remove From Cart</Button> : <Button primary onClick={this.clickHandler}>{this.props.deleteInventory ? "Delete From Inventory" : "Add To Cart" }</Button>}
                 </Card.Content>

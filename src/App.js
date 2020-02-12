@@ -10,8 +10,6 @@ import ProductShow from './components/ProductShow'
 import CheckOut from './components/CheckOut'
 
 
-
-
 class App extends React.Component {
 
   state = {
@@ -22,8 +20,8 @@ class App extends React.Component {
     currentCart: [],
     currentProduct: null,
     carts: []
-
   }
+
   componentDidMount() {
     fetch("http://localhost:3000/products")
       .then(resp => resp.json())
@@ -119,13 +117,11 @@ class App extends React.Component {
   }
 
   deleteInventory = (productInventoryId, productId) => {
-    // console.log(Id)
 
     let productInventoryToBeDeleted = this.state.productInventories.find(pi => pi.id === parseInt(productInventoryId))
     let reducedProductInventoryArr = [...this.state.productInventories]
     reducedProductInventoryArr = reducedProductInventoryArr.filter(pi => pi.id !== productInventoryToBeDeleted.id)
     this.setState({productInventories: reducedProductInventoryArr})
-    // console.log(productToBeDeleted)
     fetch(`http://localhost:3000/product_inventories/${productInventoryId}`, {
       method: "DELETE"
     })
@@ -136,7 +132,6 @@ class App extends React.Component {
     let reducedProductArr = [...this.state.products]
     reducedProductArr = reducedProductArr.filter(product => product.id !== productToBeDeleted.id)
     this.setState({products: reducedProductArr})
-    // later will probably have to add conditional/change this so that when you delete product, if other vendors are still selling product the product does not delete off home page
 
     fetch(`http://localhost:3000/products/${productId}`, {
       method: "DELETE"
@@ -146,9 +141,7 @@ class App extends React.Component {
   }
 
   addToCart = (productInventoryId) => {
-    // console.log("PI id: ", productInventoryId, "P id: ", productId)
     let selectedProductInventory = this.state.productInventories.find(pi => pi.id === parseInt(productInventoryId))
-    // console.log(selectedProductInventory)
     if (!this.state.currentCart.includes(selectedProductInventory)) {
       this.setState({
         currentCart: [...this.state.currentCart, selectedProductInventory]
@@ -159,7 +152,6 @@ class App extends React.Component {
   }
 
   removeFromCart = (productInventoryId) => {
-    console.log("remove from cart: ", productInventoryId)
     let updatedCart = [...this.state.currentCart]
     updatedCart = updatedCart.filter(pi => pi.id !== parseInt(productInventoryId))
     this.setState({currentCart: updatedCart})
@@ -168,6 +160,29 @@ class App extends React.Component {
   purchaseProducts = () => {
     let productIdArr = this.state.currentCart.map(pi => pi.product.id)
     let currentUserId = this.state.currentUser.id
+
+    this.state.currentCart.map(pi => {
+      fetch(`http://localhost:3000/product_inventories/${pi.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({quantity: pi.quantity - 1})
+      })
+      .then(resp => resp.json())
+      .then(data => {
+        let updatedProductInventories = [...this.state.productInventories]
+        updatedProductInventories = updatedProductInventories.map(pi => {
+          if(pi.id === parseInt(data.id)) {
+            return data
+          } else {
+            return pi
+          }
+        })
+        this.setState({productInventories: updatedProductInventories})
+      })
+    })
 
     fetch("http://localhost:3000/carts", {
       method: "POST",
@@ -179,7 +194,6 @@ class App extends React.Component {
     })
     .then(resp => resp.json())
     .then(data => {
-      console.log("return from cart post: ", data)
       let cartId = data.id
       productIdArr.map(id => {
         fetch("http://localhost:3000/product_carts", {
@@ -201,7 +215,8 @@ class App extends React.Component {
     alert("Thank you for your purchase!")
     this.setState({currentCart: []})
   }
-  //thinking i need to fetch to product carts. pass that down to user cart container. set state with data back from prod-cart post
+
+
   
   logOut = () => {
 
@@ -212,8 +227,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.state.currentUser)
-
 
     return (
       <div className="App">
@@ -227,7 +240,6 @@ class App extends React.Component {
           <Route exact path='/products/:id' render={routerProps => <ProductShow product={this.state.currentProduct} products={this.state.products} productInventories={this.state.productInventories} addToCart={this.addToCart} {...routerProps} />} />
           <Route exact path='/checkout' render={routerProps => <CheckOut currentCart={this.state.currentCart} removeFromCart={this.removeFromCart} currentUser={this.state.currentUser} purchaseProducts={this.purchaseProducts} {...routerProps} />} />
         </Switch>
-
 
       </div>
     );
