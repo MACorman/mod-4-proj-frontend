@@ -25,6 +25,7 @@ class NavBar extends React.Component {
                 this.props.history.push('/')
                 break;
             case 'myInventory':
+                this.props.history.push('/profile')
                 break;
             case 'sellProduct':
                 this.props.history.push('/newproductform')
@@ -35,6 +36,8 @@ class NavBar extends React.Component {
                 break;
         }
     }
+
+
 
 
 
@@ -58,11 +61,11 @@ class NavBar extends React.Component {
                             active={activeItem === 'home'}
                             onClick={this.handleItemClick}
                         />
-                        <Menu.Item
+                        {this.props.currentUser !== null && <Menu.Item
                             name='myInventory'
                             active={activeItem === 'myInventory'}
                             onClick={this.handleItemClick}
-                        />
+                        />}
                         <Menu.Item
                             name='sellProduct'
                             active={activeItem === 'sellProduct'}
@@ -80,16 +83,22 @@ class NavBar extends React.Component {
                                 </Button>
                             </Menu.Item>
                         </Menu.Menu>
-                        <Menu.Menu>
+                        {this.props.currentUser === null && <Menu.Menu>
                             <Menu.Item>
                                 <Button onClick={() => this.props.history.push('/signup')}>Sign Up!</Button>
                             </Menu.Item>
-                        </Menu.Menu>
+                        </Menu.Menu>}
                         <Menu.Menu>
                             <Menu.Item>
                                 <LoginOrProfile logUserIn={this.props.logUserIn} goToUserProfile={this.props.goToUserProfile} />
                             </Menu.Item>
                         </Menu.Menu>
+                        {this.props.currentUser !== null && <Menu.Menu>
+                            <Menu.Item>
+                                <Button onClick={() => this.props.logOut()}>Logout</Button>
+                            </Menu.Item>
+                        </Menu.Menu>}
+
                     </Menu>
 
 
