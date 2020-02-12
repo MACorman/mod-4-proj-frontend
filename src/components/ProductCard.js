@@ -4,7 +4,6 @@ import { Button, Card, Icon, Image } from 'semantic-ui-react'
 
 class ProductCard extends React.Component {
     render() {
-        console.log("teehhee: ", this.props)
         return (
             <Card >
                 <Card.Content>
@@ -25,5 +24,3 @@ class ProductCard extends React.Component {
 }
 
 export default withRouter(ProductCard)
-
-// do some thinking on app layout - what containers/components do we want? How do we want to structure pages
