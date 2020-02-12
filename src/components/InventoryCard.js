@@ -10,11 +10,16 @@ class InventoryCard extends React.Component {
             this.props.deleteInventory(productInventoryID, productId)
         } 
         else if (e.target.innerText === "Add To Cart") {
-
+            let productInventoryID = this.props.id
+            this.props.addToCart(productInventoryID)
         }
         
     }
 
+    removeHandler = () => {
+        let productInventoryID = this.props.id
+        this.props.removeFromCart(productInventoryID)
+    }
 
 
     render() {
@@ -34,7 +39,7 @@ class InventoryCard extends React.Component {
                         <p>${this.props.price}.00</p>
                         <p>{this.props.quantity} Left in Stock</p>
                     </Card.Meta>
-                    <Button primary onClick={this.clickHandler}>{this.props.deleteInventory ? "Delete From Inventory" : "Add To Cart" }</Button>
+                    {this.props.checkout ? <Button primary onClick={this.removeHandler}>Remove From Cart</Button> : <Button primary onClick={this.clickHandler}>{this.props.deleteInventory ? "Delete From Inventory" : "Add To Cart" }</Button>}
                 </Card.Content>
             </Card>
         )

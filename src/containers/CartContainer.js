@@ -8,7 +8,11 @@ class CartContainer extends React.Component {
             <div>
                 <h2>Past Purchases</h2>
                 <Card.Group itemsPerRow={4}>
-                {this.props.carts.map(cart => <CartCard key={cart.id} {...cart} />)}
+                {this.props.carts.map(cart => {
+                    if(cart.user.id === this.props.user.id) {
+                       return <CartCard key={cart.id} {...cart} />
+                    }
+                })}
                 </Card.Group>
             </div>
         )
