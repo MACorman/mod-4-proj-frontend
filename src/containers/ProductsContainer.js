@@ -5,10 +5,17 @@ import { withRouter } from 'react-router-dom'
 
 
 class ProductsContainer extends React.Component {
+    
     render() {
+        let uniqueProducts = []
+        this.props.products.filter(product => {
+            if(!uniqueProducts.includes(product.name)) {
+               return uniqueProducts = [...uniqueProducts, product]
+            }
+        })
         return (
             <Card.Group itemsPerRow={4}>
-                {this.props.products.map(product => <ProductCard handleClick={this.props.handleClick} key={product.id} {...product} users={this.props.users} />)}
+                {uniqueProducts.map(product => <ProductCard handleClick={this.props.handleClick} key={product.id} {...product} users={this.props.users} />)}
             </Card.Group>
         )
     }
