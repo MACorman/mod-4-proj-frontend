@@ -11,6 +11,7 @@ import CheckOut from './components/CheckOut'
 
 
 
+
 class App extends React.Component {
 
   state = {
@@ -82,7 +83,7 @@ class App extends React.Component {
         this.addNewProductInventory(formInput, data)
 
         let productNamesArr = this.state.products.map(p => p.name)
-        if(!productNamesArr.includes(data.name)) {
+        if (!productNamesArr.includes(data.name)) {
           let updatedProductsArr = [...this.state.products, data]
           this.setState({ products: updatedProductsArr })
 
@@ -201,14 +202,22 @@ class App extends React.Component {
     this.setState({currentCart: []})
   }
   //thinking i need to fetch to product carts. pass that down to user cart container. set state with data back from prod-cart post
+  
+  logOut = () => {
+
+    this.setState({
+      currentUser: null
+    }, this.props.history.push('/'))
+    sessionStorage.clear()
+  }
 
   render() {
-    console.log(this.state.currentCart)
+    console.log(this.state.currentUser)
 
 
     return (
       <div className="App">
-        <NavBar logUserIn={this.logUserIn} currentCart={this.state.currentCart} />
+        <NavBar logOut={this.logOut} currentUser={this.state.currentUser} logUserIn={this.logUserIn} currentCart={this.state.currentCart} />
         <Switch>
           <Route exact path='/' render={routerProps => <ProductsContainer handleClick={this.handleClick} {...routerProps} products={this.state.products} />} />
           <Route exact path='/profile' render={routerProps => <UserContainer user={this.state.currentUser ? this.state.currentUser : JSON.parse(sessionStorage.getItem("currentUser"))} deleteInventory={this.deleteInventory} {...routerProps} productInventories={this.state.productInventories} carts={this.state.carts}/>} />
