@@ -36,13 +36,19 @@ class App extends React.Component {
       .then(data => this.setState({ productInventories: data }))
 
     fetch("http://localhost:3000/carts")
-    .then(resp => resp.json())
-    .then(data => this.setState({ carts: data}))
+      .then(resp => resp.json())
+      .then(data => this.setState({ carts: data }))
 
-    if (sessionStorage.length > 0) {
+    if (sessionStorage.length > 0 && this.state.currentUser !== null) {
       this.setState({ currentUser: JSON.parse(sessionStorage.getItem("currentUser")) })
     }
   }
+  addUser = (userObj) => {
+    this.setState({
+      users: [...this.state.users, userObj]
+    }, () => this.logUserIn(userObj))
+  }
+
 
   logUserIn = (userObj) => {
 
@@ -51,7 +57,6 @@ class App extends React.Component {
 
       sessionStorage.setItem("currentUser", JSON.stringify(this.state.currentUser))
     })
-
   }
 
   handleClick = (id) => {
@@ -122,12 +127,12 @@ class App extends React.Component {
     let productInventoryToBeDeleted = this.state.productInventories.find(pi => pi.id === parseInt(productInventoryId))
     let reducedProductInventoryArr = [...this.state.productInventories]
     reducedProductInventoryArr = reducedProductInventoryArr.filter(pi => pi.id !== productInventoryToBeDeleted.id)
-    this.setState({productInventories: reducedProductInventoryArr})
+    this.setState({ productInventories: reducedProductInventoryArr })
     fetch(`http://localhost:3000/product_inventories/${productInventoryId}`, {
       method: "DELETE"
     })
-    .then(resp => resp.json())
-    .then(console.log("delete product inventory success"))
+      .then(resp => resp.json())
+      .then(console.log("delete product inventory success"))
 
     let productToBeDeleted = this.state.products.find(product => product.id === parseInt(productId))
       if(productToBeDeleted.product_inventories.length === 0) {
@@ -158,7 +163,7 @@ class App extends React.Component {
   removeFromCart = (productInventoryId) => {
     let updatedCart = [...this.state.currentCart]
     updatedCart = updatedCart.filter(pi => pi.id !== parseInt(productInventoryId))
-    this.setState({currentCart: updatedCart})
+    this.setState({ currentCart: updatedCart })
   }
 
   purchaseProducts = () => {
@@ -172,20 +177,20 @@ class App extends React.Component {
           "Content-Type": "application/json",
           "Accept": "application/json"
         },
-        body: JSON.stringify({quantity: pi.quantity - 1})
+        body: JSON.stringify({ quantity: pi.quantity - 1 })
       })
-      .then(resp => resp.json())
-      .then(data => {
-        let updatedProductInventories = [...this.state.productInventories]
-        updatedProductInventories = updatedProductInventories.map(pi => {
-          if(pi.id === parseInt(data.id)) {
-            return data
-          } else {
-            return pi
-          }
+        .then(resp => resp.json())
+        .then(data => {
+          let updatedProductInventories = [...this.state.productInventories]
+          updatedProductInventories = updatedProductInventories.map(pi => {
+            if (pi.id === parseInt(data.id)) {
+              return data
+            } else {
+              return pi
+            }
+          })
+          this.setState({ productInventories: updatedProductInventories })
         })
-        this.setState({productInventories: updatedProductInventories})
-      })
     })
 
     fetch("http://localhost:3000/carts", {
@@ -194,34 +199,34 @@ class App extends React.Component {
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
-      body: JSON.stringify({user_id: currentUserId})
+      body: JSON.stringify({ user_id: currentUserId })
     })
-    .then(resp => resp.json())
-    .then(data => {
-      let cartId = data.id
-      productIdArr.map(id => {
-        fetch("http://localhost:3000/product_carts", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "accepts": "application/json"
-          },
-          body: JSON.stringify({
-            product_id: id,
-            cart_id: cartId
+      .then(resp => resp.json())
+      .then(data => {
+        let cartId = data.id
+        productIdArr.map(id => {
+          fetch("http://localhost:3000/product_carts", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "accepts": "application/json"
+            },
+            body: JSON.stringify({
+              product_id: id,
+              cart_id: cartId
+            })
           })
+            .then(resp => resp.json())
+            .then(data => console.log("prod-cart post: ", data))
         })
-        .then(resp => resp.json())
-        .then(data => console.log("prod-cart post: ", data))
       })
-    })
     this.props.history.push('/')
     alert("Thank you for your purchase!")
-    this.setState({currentCart: []})
+    this.setState({ currentCart: [] })
   }
 
 
-  
+
   logOut = () => {
 
     this.setState({
@@ -237,8 +242,8 @@ class App extends React.Component {
         <NavBar logOut={this.logOut} currentUser={this.state.currentUser} logUserIn={this.logUserIn} currentCart={this.state.currentCart} />
         <Switch>
           <Route exact path='/' render={routerProps => <ProductsContainer handleClick={this.handleClick} {...routerProps} products={this.state.products} />} />
-          <Route exact path='/profile' render={routerProps => <UserContainer user={this.state.currentUser ? this.state.currentUser : JSON.parse(sessionStorage.getItem("currentUser"))} deleteInventory={this.deleteInventory} {...routerProps} productInventories={this.state.productInventories} carts={this.state.carts}/>} />
-          <Route exact path='/signup' render={routerProps => <SignUp logUserIn={this.logUserIn} {...routerProps} />} />
+          <Route exact path='/profile' render={routerProps => <UserContainer user={this.state.currentUser ? this.state.currentUser : JSON.parse(sessionStorage.getItem("currentUser"))} deleteInventory={this.deleteInventory} {...routerProps} productInventories={this.state.productInventories} carts={this.state.carts} />} />
+          <Route exact path='/signup' render={routerProps => <SignUp currentUser={this.state.currentUser} addUser={this.addUser} logUserIn={this.logUserIn} {...routerProps} />} />
           <Route exact path='/products' render={routerProps => <ProductsContainer handleClick={this.handleClick} {...routerProps} products={this.state.products} />} />
           <Route exact path='/newproductform' render={routerProps => <NewProductForm {...routerProps} currentUser={this.state.currentUser} addNewProduct={this.addNewProduct} />} />
           <Route exact path='/products/:id' render={routerProps => <ProductShow product={this.state.currentProduct} products={this.state.products} productInventories={this.state.productInventories} addToCart={this.addToCart} {...routerProps} />} />

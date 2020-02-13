@@ -6,7 +6,10 @@ import { Button, Form, Input } from 'semantic-ui-react'
 // eslint-disable-next-line
 const newUserUrl = ""
 
+
+
 class SignUp extends Component {
+
 
   state = {
     username: "",
@@ -21,6 +24,20 @@ class SignUp extends Component {
     })
   }
 
+  createInventory = (userObj) => {
+
+    console.log("current user: ", this.props.currentUser)
+    let userId = parseInt(userObj.id)
+    fetch('http://localhost:3000/inventories', {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "accepts": "application/json"
+      },
+      body: JSON.stringify({ user_id: userId })
+    }).then(resp => resp.json()).then(data => console.log(data))
+
+  }
 
   submitHandler = (e) => {
     e.preventDefault()
@@ -35,13 +52,11 @@ class SignUp extends Component {
     })
       .then(resp => resp.json())
       .then(data => {
-        let passedObject = {
-          "username": data.username,
-          "password": data.password
-        }
+        console.log(data)
         sessionStorage.clear()
-        this.props.logUserIn(passedObject)
         this.clearForm()
+        this.props.addUser(data)
+        this.createInventory(data)
 
 
 
@@ -49,6 +64,7 @@ class SignUp extends Component {
       }, this.props.history.push('/'))
     // debugger
   }
+
 
   clearForm = () => {
     this.setState({

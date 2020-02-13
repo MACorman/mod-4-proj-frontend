@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 // import FilterAndSearch from '../components/FilterAndSearch'
 // import CartIcon from '../components/CartIcon'
 import LoginOrProfile from '../components/LoginOrProfileButton'
-import { Icon, Menu, Button, Input } from 'semantic-ui-react'
+import { Icon, Menu, Button, Image } from 'semantic-ui-react'
 
 
 class NavBar extends React.Component {
@@ -71,12 +71,13 @@ class NavBar extends React.Component {
                             active={activeItem === 'sellProduct'}
                             onClick={this.handleItemClick}
                         />
-                        <Menu.Menu position='right'>
-                            <Menu.Item>
-                                <Input icon='search' placeholder='Search...' />
+                        <Menu.Menu position='right' >
+                            <Menu.Item header>
+                                Bill and Ted's Excellent SuperStore
+
                             </Menu.Item>
                         </Menu.Menu>
-                        <Menu.Menu>
+                        <Menu.Menu position='right'>
                             <Menu.Item>
                                 <Button onClick={() => this.props.history.push('/checkout')} >
                                     <Icon name='cart' />{this.props.currentCart.length}
