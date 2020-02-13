@@ -86,6 +86,7 @@ class App extends React.Component {
         this.addNewProductInventory(formInput, data)
 
         let productNamesArr = this.state.products.map(p => p.name)
+        console.log(productNamesArr)
         if (!productNamesArr.includes(data.name)) {
           let updatedProductsArr = [...this.state.products, data]
           this.setState({ products: updatedProductsArr })
@@ -134,16 +135,19 @@ class App extends React.Component {
       .then(console.log("delete product inventory success"))
 
     let productToBeDeleted = this.state.products.find(product => product.id === parseInt(productId))
-    let reducedProductArr = [...this.state.products]
-    reducedProductArr = reducedProductArr.filter(product => product.id !== productToBeDeleted.id)
-    this.setState({ products: reducedProductArr })
+      if(productToBeDeleted.product_inventories.length === 0) {
+        let reducedProductArr = [...this.state.products]
+        reducedProductArr = reducedProductArr.filter(product => product.id !== productToBeDeleted.id)
+        this.setState({products: reducedProductArr})
+    
+        fetch(`http://localhost:3000/products/${productId}`, {
+          method: "DELETE"
+        })
+        .then(resp => resp.json())
+        .then(console.log)
+      }
 
-    fetch(`http://localhost:3000/products/${productId}`, {
-      method: "DELETE"
-    })
-      .then(resp => resp.json())
-      .then(console.log("delete product success"))
-  }
+    }
 
   addToCart = (productInventoryId) => {
     let selectedProductInventory = this.state.productInventories.find(pi => pi.id === parseInt(productInventoryId))

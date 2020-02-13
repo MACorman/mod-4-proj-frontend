@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import ProductCard from '../components/ProductCard'
 import InventoryCard from './InventoryCard'
-import { Button, Card, Icon, Image } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react'
 
 class CheckOut extends Component {
 
